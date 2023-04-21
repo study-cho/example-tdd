@@ -1,21 +1,14 @@
 package com.example.memberproductorder.member;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+@SpringBootTest
 class MemberServiceTest {
 
-    private MemberService memberService;
-    private MemberRepository memberRepository;
-    private MemberPort memberPort;
-
-    @BeforeEach
-    void setUp() {
-        memberRepository = new MemberRepository();
-        memberPort = new MemberAdapter(memberRepository);
-        memberService = new MemberService(memberPort);
-    }
+    @Autowired private MemberService memberService;
 
     @Test
     @DisplayName("회원 등록")

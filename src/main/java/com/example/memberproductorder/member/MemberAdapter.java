@@ -1,5 +1,8 @@
 package com.example.memberproductorder.member;
 
+import org.springframework.stereotype.Component;
+
+@Component
 class MemberAdapter implements MemberPort {
     private final MemberRepository memberRepository;
 

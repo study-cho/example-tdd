@@ -1,5 +1,8 @@
 package com.example.memberproductorder.member;
 
+import org.springframework.stereotype.Component;
+
+@Component
 class MemberService {
     private final MemberPort memberPort;
 
