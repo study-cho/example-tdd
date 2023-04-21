@@ -2,10 +2,7 @@ package com.example.memberproductorder.member;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/members")
@@ -25,18 +22,17 @@ class MemberService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    public FindMemberResponse findMember(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<FindMemberResponse> findMember(@PathVariable Long id) {
         Member member = memberPort.findMember(id);
 
-        return new FindMemberResponse(
+        FindMemberResponse response = new FindMemberResponse(
                 member.getMemberId(),
                 member.getMemberName(),
                 member.getMemberGrade()
         );
+
+        return ResponseEntity.ok(response);
     }
 
-    public Boolean duplicateMember(String memberId) {
-        Member member = memberPort.duplicateMemberId(memberId);
-        return member==null ? false : true;
-    }
 }

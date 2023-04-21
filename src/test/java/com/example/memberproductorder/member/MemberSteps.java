@@ -21,4 +21,13 @@ public class MemberSteps {
                 .then()
                 .log().all().extract();
     }
+
+    static ExtractableResponse<Response> memberFindRequest(Long id) {
+        ExtractableResponse<Response> response = RestAssured.given().log().all()
+                .when()
+                .get("/members/{id}", id)
+                .then().log().all()
+                .extract();
+        return response;
+    }
 }

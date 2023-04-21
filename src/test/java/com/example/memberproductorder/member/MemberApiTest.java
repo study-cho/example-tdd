@@ -19,4 +19,20 @@ class MemberApiTest extends ApiTest {
         assertThat(response.statusCode()).isEqualTo(HttpStatus.CREATED.value());
     }
 
+    @Test
+    @DisplayName("회원 조회")
+    void findMember() {
+        // given
+        MemberSteps.memberJoinRequest(MemberSteps.memberJoinRequest_create());
+        Long id = 1L;
+
+        //when
+        var response = MemberSteps.memberFindRequest(id);
+
+        //then
+        assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.jsonPath().getString("memberId")).isEqualTo("test1");
+
+    }
+
 }
