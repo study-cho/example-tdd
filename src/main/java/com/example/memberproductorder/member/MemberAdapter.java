@@ -14,4 +14,15 @@ class MemberAdapter implements MemberPort {
     public void save(Member member) {
         memberRepository.save(member);
     }
+
+    @Override
+    public Member findMember(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("아이디가 존재하지 않습니다."));
+    }
+
+    @Override
+    public Member duplicateMemberId(String memberId) {
+        return memberRepository.findByMemberId(memberId);
+    }
 }

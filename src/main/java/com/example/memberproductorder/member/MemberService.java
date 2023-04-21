@@ -25,4 +25,18 @@ class MemberService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    public FindMemberResponse findMember(Long id) {
+        Member member = memberPort.findMember(id);
+
+        return new FindMemberResponse(
+                member.getMemberId(),
+                member.getMemberName(),
+                member.getMemberGrade()
+        );
+    }
+
+    public Boolean duplicateMember(String memberId) {
+        Member member = memberPort.duplicateMemberId(memberId);
+        return member==null ? false : true;
+    }
 }
