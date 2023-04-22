@@ -15,22 +15,22 @@ class ProductAdapter implements ProductPort {
 
     @Override
     public void addProduct(Product product) {
-        productRepository.addProduct(product);
+        productRepository.save(product);
     }
 
     @Override
     public Optional<Product> findProduct(Long productId) {
-        return productRepository.findProduct(productId);
+        return productRepository.findById(productId);
     }
 
     @Override
     public void updateProduct(Long productId, UpdateProductRequest request) {
-        Product product = new Product(request.productName(), request.productPrice());
-        productRepository.update(productId, product);
+        Product product = new Product(productId, request.productName(), request.productPrice());
+        productRepository.save(product);
     }
 
     @Override
     public List<Product> findAllProduct() {
-        return productRepository.findAllProduct();
+        return productRepository.findAll();
     }
 }

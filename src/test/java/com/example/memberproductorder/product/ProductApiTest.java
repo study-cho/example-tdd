@@ -76,7 +76,7 @@ class ProductApiTest extends ApiTest {
         ExtractableResponse<Response> response = ProductSteps.updateProductRequest(productId, request);
 
         assertThat(response.statusCode()).isEqualTo(HttpStatus.OK.value());
-        assertThat(productRepository.findProduct(productId).get().getProductPrice()).isEqualTo(2000);
+        assertThat(productRepository.findById(productId).get().getProductPrice()).isEqualTo(2000);
     }
 
 }

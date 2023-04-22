@@ -1,11 +1,24 @@
 package com.example.memberproductorder.product;
 
+import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.util.Assert;
 
+@Entity
+@Table(name = "products")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 class Product {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private final String productName;
-    private final int productPrice;
+
+    private String productName;
+    private int productPrice;
 
     public Product(String productName, int productPrice) {
         Assert.hasText(productName, "상품명은 필수입니다.");
@@ -14,28 +27,4 @@ class Product {
         this.productPrice = productPrice;
     }
 
-    public void assignId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public int getProductPrice() {
-        return productPrice;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", productName='" + productName + '\'' +
-                ", productPrice=" + productPrice +
-                '}';
-    }
 }
