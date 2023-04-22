@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.util.Assert;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -66,7 +67,35 @@ class ProductServiceTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class,
                 () -> productService.findProduct(wrongId));
         assertThat(exception.getMessage()).isEqualTo("잘못된 상품 아이디입니다.");
+    }
 
+    @Test
+    @DisplayName("상품목록조회")
+    void findAllProduct() {
+        productService.addProduct(addProductRequest_create());
+        productService.addProduct(addProductRequest_create());
+
+        List<Product> list = productService.findAllProduct();
+
+        list.forEach(System.out::println);
+        assertThat(list.size()).isEqualTo(2);
+    }
+
+    @Test
+    @DisplayName("상품수정")
+    void updateProduct() {
+        //given
+        productService.addProduct(addProductRequest_create());
+        Long productId = 1L;
+        UpdateProductRequest request = new UpdateProductRequest("상품1", 2000);
+        productService.updateProduct(productId, request);
+
+        //when
+        GetProductResponse response = productService.findProduct(productId);
+
+        //then
+        assertThat(response.productName()).isEqualTo("상품1");
+        assertThat(response.productPrice()).isEqualTo(2000);
     }
 
     private record AddProductRequest(String productName, int productPrice) {
@@ -98,6 +127,14 @@ class ProductServiceTest {
                     product.getProductPrice()
             );
         }
+
+        public void updateProduct(Long productId, UpdateProductRequest request) {
+            productPort.updateProduct(productId, request);
+        }
+
+        public List<Product> findAllProduct() {
+            return productPort.findAllProduct();
+        }
     }
 
     private class Product {
@@ -127,11 +164,24 @@ class ProductServiceTest {
         public int getProductPrice() {
             return productPrice;
         }
+
+        @Override
+        public String toString() {
+            return "Product{" +
+                    "id=" + id +
+                    ", productName='" + productName + '\'' +
+                    ", productPrice=" + productPrice +
+                    '}';
+        }
     }
 
     private interface ProductPort {
         void addProduct(Product product);
         Product findProduct(Long productId);
+
+        void updateProduct(Long productId, UpdateProductRequest request);
+
+        List<Product> findAllProduct();
     }
 
     class ProductAdapter implements ProductPort {
@@ -151,6 +201,17 @@ class ProductServiceTest {
             return productRepository.findProduct(productId)
                     .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 아이디입니다."));
         }
+
+        @Override
+        public void updateProduct(Long productId, UpdateProductRequest request) {
+            Product product = new Product(request.productName(), request.productPrice());
+            productRepository.update(productId, product);
+        }
+
+        @Override
+        public List<Product> findAllProduct() {
+            return productRepository.findAllProduct();
+        }
     }
 
 
@@ -166,6 +227,15 @@ class ProductServiceTest {
         public Optional<Product> findProduct(Long productId) {
             return Optional.ofNullable(persistence.get(productId));
         }
+
+        public void update(Long productId, Product product) {
+            product.assignId(productId);
+            persistence.put(productId, product);
+        }
+
+        public List<Product> findAllProduct() {
+            return persistence.values().stream().toList();
+        }
     }
 
     private record GetProductResponse(
@@ -173,5 +243,12 @@ class ProductServiceTest {
             String productName,
             int productPrice
     ) {
+    }
+
+    private record UpdateProductRequest(String productName, int productPrice) {
+        private UpdateProductRequest {
+            Assert.hasText(productName, "상품명은 필수입니다.");
+            Assert.isTrue(productPrice > 0, "상품 가격은 0보다 커야 합니다.");
+        }
     }
 }
