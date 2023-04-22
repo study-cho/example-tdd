@@ -1,7 +1,10 @@
 package com.example.memberproductorder.product;
 
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
+@Component
 class ProductAdapter implements ProductPort {
     private final ProductRepository productRepository;
 

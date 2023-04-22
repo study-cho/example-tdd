@@ -1,7 +1,11 @@
 package com.example.memberproductorder.product;
 
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
+@Component
 class ProductService {
     private final ProductPort productPort;
 
@@ -9,6 +13,7 @@ class ProductService {
         this.productPort = productPort;
     }
 
+    @Transactional
     public void addProduct(AddProductRequest request) {
         Product product = new Product(request.productName(), request.productPrice());
 
@@ -25,6 +30,7 @@ class ProductService {
         );
     }
 
+    @Transactional
     public void updateProduct(Long productId, UpdateProductRequest request) {
         productPort.updateProduct(productId, request);
     }

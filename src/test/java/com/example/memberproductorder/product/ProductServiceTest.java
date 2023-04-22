@@ -1,26 +1,20 @@
 package com.example.memberproductorder.product;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@SpringBootTest
 class ProductServiceTest {
 
-    private ProductService productService;
-    private ProductRepository productRepository;
-    private ProductPort productPort;
-
-    @BeforeEach
-    void setUp() {
-        productRepository = new ProductRepository();
-        productPort = new ProductAdapter(productRepository);
-        productService = new ProductService(productPort);
-    }
+    @Autowired private ProductService productService;
 
     @Test
     @DisplayName("상품등록")
@@ -55,7 +49,7 @@ class ProductServiceTest {
     @DisplayName("상품조회_wrongId")
     void findProduct_throw() {
         //given
-        final Long wrongId = 1L;
+        final Long wrongId = 100L;
 
         //when
         //then
@@ -73,7 +67,7 @@ class ProductServiceTest {
         List<Product> list = productService.findAllProduct();
 
         list.forEach(System.out::println);
-        assertThat(list.size()).isEqualTo(2);
+        assertThat(list.size()).isEqualTo(3);
     }
 
     @Test
