@@ -3,6 +3,7 @@ package com.example.memberproductorder.product;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 class ProductAdapter implements ProductPort {
@@ -18,9 +19,8 @@ class ProductAdapter implements ProductPort {
     }
 
     @Override
-    public Product findProduct(Long productId) {
-        return productRepository.findProduct(productId)
-                .orElseThrow(() -> new IllegalArgumentException("잘못된 상품 아이디입니다."));
+    public Optional<Product> findProduct(Long productId) {
+        return productRepository.findProduct(productId);
     }
 
     @Override
