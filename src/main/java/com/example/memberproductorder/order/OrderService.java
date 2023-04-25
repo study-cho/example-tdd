@@ -2,35 +2,46 @@ package com.example.memberproductorder.order;
 
 import com.example.memberproductorder.member.Member;
 import com.example.memberproductorder.product.Product;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@Component
+@RestController
+@RequestMapping("/orders")
 class OrderService {
+
     private final OrderPort orderPort;
 
     OrderService(OrderPort orderPort) {
         this.orderPort = orderPort;
     }
 
-    public void createOrder(CreateOrderRequest request) {
+    @PostMapping("/create")
+    public ResponseEntity<Void> createOrder(@RequestBody CreateOrderRequest request) {
         Member member = orderPort.getMemberById(request.mId());
         Product product = orderPort.getProductById(request.productId());
         Order order = new Order(member, product, request.quantity());
         order.calculate();
 
         orderPort.save(order);
+
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    public GetOrderResponse getOrderById(Long orderId) {
+    @GetMapping("/{orderId}")
+    public ResponseEntity<GetOrderResponse> getOrderById(@PathVariable Long orderId) {
         Order order = orderPort.getOrderById(orderId);
 
-        return new GetOrderResponse(
+        GetOrderResponse response = new GetOrderResponse(
                 order.getId(),
                 order.getMember().getMemberId(),
                 order.getMember().getMemberGrade(),
                 order.getProduct().getProductName(),
+                order.getProduct().getProductPrice(),
                 order.getQuantity(),
                 order.getTotalPrice()
         );
+
+        return ResponseEntity.ok(response);
     }
 }

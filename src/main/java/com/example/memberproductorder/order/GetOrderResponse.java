@@ -9,6 +9,7 @@ record GetOrderResponse(
         String memberId,
         MemberGrade memberGrade,
         String productName,
+        int productPrice,
         int quantity,
         int totalPrice
 ) {

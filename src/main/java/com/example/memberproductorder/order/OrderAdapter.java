@@ -6,7 +6,7 @@ import com.example.memberproductorder.product.Product;
 import com.example.memberproductorder.product.ProductRepository;
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 class OrderAdapter implements OrderPort {
 
     private final MemberRepository memberRepository;

@@ -5,7 +5,7 @@ import com.example.memberproductorder.member.MemberGrade;
 import com.example.memberproductorder.product.Product;
 import org.springframework.stereotype.Component;
 
-@Component
+
 class StubOrderPort implements OrderPort {
 
     private final OrderRepository orderRepository;
