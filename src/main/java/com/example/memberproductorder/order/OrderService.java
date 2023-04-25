@@ -2,7 +2,9 @@ package com.example.memberproductorder.order;
 
 import com.example.memberproductorder.member.Member;
 import com.example.memberproductorder.product.Product;
+import org.springframework.stereotype.Component;
 
+@Component
 class OrderService {
     private final OrderPort orderPort;
 

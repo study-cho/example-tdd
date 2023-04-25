@@ -6,7 +6,7 @@ import io.restassured.response.Response;
 import org.springframework.http.MediaType;
 
 public class ProductSteps {
-    static ExtractableResponse<Response> addProductRequest(AddProductRequest request) {
+    public static ExtractableResponse<Response> addProductRequest(AddProductRequest request) {
         return RestAssured.given().log().all()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(request)
@@ -16,7 +16,7 @@ public class ProductSteps {
                 .log().all().extract();
     }
 
-    static AddProductRequest addProductRequest_create() {
+    public static AddProductRequest addProductRequest_create() {
         String productName = "상품1";
         int productPrice = 1000;
         AddProductRequest request = new AddProductRequest(productName, productPrice);

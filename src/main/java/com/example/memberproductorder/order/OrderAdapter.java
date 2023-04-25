@@ -4,7 +4,9 @@ import com.example.memberproductorder.member.Member;
 import com.example.memberproductorder.member.MemberRepository;
 import com.example.memberproductorder.product.Product;
 import com.example.memberproductorder.product.ProductRepository;
+import org.springframework.stereotype.Component;
 
+//@Component
 class OrderAdapter implements OrderPort {
 
     private final MemberRepository memberRepository;
