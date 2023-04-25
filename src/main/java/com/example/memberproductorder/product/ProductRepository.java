@@ -9,6 +9,6 @@ import java.util.Map;
 import java.util.Optional;
 
 
-interface ProductRepository extends JpaRepository<Product, Long> {
+public interface ProductRepository extends JpaRepository<Product, Long> {
 
 }

@@ -12,6 +12,7 @@ import org.springframework.util.Assert;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+public
 class Product {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 @Table(name = "members")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+public
 class Member {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
